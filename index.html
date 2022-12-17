@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>OSP Nawojowa Góra - panel samochodu</title>
+    <title>OSP Nawojowa Góra - czasy operacyjne</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -138,24 +138,6 @@
         document.getElementById('2').classList.add('bg-danger');
         document.getElementById('3').classList.add('bg-danger');
       }
-
-      function send() {
-        if (time1 != 0 && time2 != 0 && time3 != 0 && time4 != 0) {
-          console.log('test');
-
-          fetch('send.php', {
-            method: 'POST',
-            body: JSON.stringify({
-              time1,
-              time2,
-              time3,
-              time4,
-            }),
-          });
-        }
-      }
-
-      setInterval(send, 1000);
     </script>
   </body>
 </html>

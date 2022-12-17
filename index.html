@@ -1,0 +1,161 @@
+<html>
+  <head>
+    <title>OSP Nawojowa Góra - panel samochodu</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="main.css" />
+    <style>
+      .vh-90 {
+        height: 90vh !important;
+      }
+      .vh-10 {
+        height: 10vh !important;
+      }
+      .parent {
+        position: relative;
+        display: flex;
+      }
+      .fill {
+        height: auto;
+        top: 0;
+        bottom: 0;
+        position: relative;
+      }
+
+      .fill .card-body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body class="bg-dark">
+    <div class="container-fluid vh-90 d-flex justify-content-center flex-column">
+      <div class="h-100 row text-light">
+        <div class="col-12 col-lg-6 px-2 py-2 parent">
+          <button id="0" class="card btn-danger w-100 bg-danger fill" onclick="settime(0)">
+            <div class="card-body">
+              <h3>WYJAZD</h3>
+              <span id="time0"> </span>
+            </div>
+          </button>
+        </div>
+
+        <div class="col-12 col-lg-6 px-2 py-2 parent">
+          <button id="1" class="card btn-danger w-100 bg-danger fill" onclick="settime(1)">
+            <div class="card-body">
+              <h3>NA MIEJSCU</h3>
+              <span id="time1"> </span>
+            </div>
+          </button>
+        </div>
+
+        <div class="col-12 col-lg-6 px-2 py-2 parent">
+          <button id="2" class="card btn-danger w-100 bg-danger fill" onclick="settime(2)">
+            <div class="card-body">
+              <h3>ZAKOŃCZENIE</h3>
+              <span id="time2"> </span>
+            </div>
+          </button>
+        </div>
+
+        <div class="col-12 col-lg-6 px-2 py-2 parent">
+          <button id="3" class="card btn-danger w-100 bg-danger fill" onclick="settime(3)">
+            <div class="card-body">
+              <h3>W KOSZARACH</h3>
+              <span id="time3"> </span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid vh-10 d-flex justify-content-center flex-column">
+      <div class="row">
+        <div class="col-12 px-2 pt-2 pt-lg-4">
+          <button class="card btn-warning w-100 bg-warning" type="button" onclick="reset()">
+            <div class="card-body text-center w-100">
+              <span>Wyczyść</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var time1 = 0,
+        time2 = 0,
+        time3 = 0,
+        time4 = 0;
+
+      function settime(id) {
+        var current = new Date();
+        if (id == 0) {
+          var span = document.getElementById('time0');
+          var col = document.getElementById('0');
+          time1 = current.toLocaleString();
+        } else if (id == 1) {
+          var span = document.getElementById('time1');
+          var col = document.getElementById('1');
+          time2 = current.toLocaleString();
+        } else if (id == 2) {
+          var span = document.getElementById('time2');
+          var col = document.getElementById('2');
+          time3 = current.toLocaleString();
+        } else {
+          var span = document.getElementById('time3');
+          var col = document.getElementById('3');
+          time4 = current.toLocaleString();
+        }
+
+        span.innerHTML = current.toLocaleString();
+        col.classList.remove('bg-danger');
+        col.classList.add('bg-success');
+      }
+
+      function reset() {
+        document.getElementById('time0').innerHTML = ' ';
+        document.getElementById('time1').innerHTML = ' ';
+        document.getElementById('time2').innerHTML = ' ';
+        document.getElementById('time3').innerHTML = ' ';
+        document.getElementById('0').classList.remove('bg-success');
+        document.getElementById('1').classList.remove('bg-success');
+        document.getElementById('2').classList.remove('bg-success');
+        document.getElementById('3').classList.remove('bg-success');
+        document.getElementById('0').classList.add('bg-danger');
+        document.getElementById('1').classList.add('bg-danger');
+        document.getElementById('2').classList.add('bg-danger');
+        document.getElementById('3').classList.add('bg-danger');
+      }
+
+      function send() {
+        if (time1 != 0 && time2 != 0 && time3 != 0 && time4 != 0) {
+          console.log('test');
+
+          fetch('send.php', {
+            method: 'POST',
+            body: JSON.stringify({
+              time1,
+              time2,
+              time3,
+              time4,
+            }),
+          });
+        }
+      }
+
+      setInterval(send, 1000);
+    </script>
+  </body>
+</html>
